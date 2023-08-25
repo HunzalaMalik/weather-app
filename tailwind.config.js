@@ -6,7 +6,7 @@ const config = {
         background: "#0d1521",
         component: "#243247",
         primary: "#ffffff",
-        secondary: "#c6cacf",
+        secondary: "#878787",
       },
     },
   },

@@ -23,7 +23,7 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
               to=""
               icon={<BeachAccessIcon style={{ color: "white" }} />}
               label=""
-              labelColor="white"
+              labelColor="primary"
               onSelect={() => setSelected("")}
             />
           </div>
@@ -33,11 +33,11 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 to="/"
                 icon={
                   <ThunderstormIcon
-                    style={{ color: selected === "" ? "gray" : "white" }}
+                    style={{ color: selected === "" ? "white" : "gray" }}
                   />
                 }
                 label="Weather"
-                labelColor={selected === "" ? "gray" : "white"}
+                labelColor={selected === "" ? "primary" : "secondary"}
                 onSelect={() => setSelected("")}
               />
             </li>
@@ -46,40 +46,44 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 to="/cities"
                 icon={
                   <FormatListBulletedIcon
-                    style={{ color: selected === "Cities" ? "gray" : "white" }}
+                    style={{
+                      color: selected === "Cities" ? "white" : "gray",
+                    }}
                   />
                 }
                 label="Cities"
-                labelColor={selected === "Cities" ? "gray" : "white"}
+                labelColor={selected === "Cities" ? "primary" : "secondary"}
                 onSelect={() => setSelected("Cities")}
               />
             </li>
             <li>
               <SidebarItem
-                to="/map"
+                to="/cities"
                 icon={
                   <MapIcon
-                    style={{ color: selected === "Map" ? "gray" : "white" }}
+                    style={{
+                      color: selected === "Map" ? "white" : "gray",
+                    }}
                   />
                 }
                 label="Map"
-                labelColor={selected === "Map" ? "gray" : "white"}
+                labelColor={selected === "Map" ? "primary" : "secondary"}
                 onSelect={() => setSelected("Map")}
               />
             </li>
 
             <li>
               <SidebarItem
-                to="/settings"
+                to="/cities"
                 icon={
                   <TuneIcon
                     style={{
-                      color: selected === "Settings" ? "gray" : "white",
+                      color: selected === "Settings" ? "white" : "gray",
                     }}
                   />
                 }
                 label="Settings"
-                labelColor={selected === "Settings" ? "gray" : "white"}
+                labelColor={selected === "Settings" ? "primary" : "secondary"}
                 onSelect={() => setSelected("Settings")}
               />
             </li>
@@ -87,10 +91,12 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full ">
         <SearchField />
 
-        <main className="flex-grow m-8">{children}</main>
+        <main className="grid grid-cols-10 gap-4 mx-8 mt-8 overflow-y-auto h-[calc(100vh-10rem)]">
+          {children}
+        </main>
       </div>
     </div>
   )

@@ -22,7 +22,7 @@ const SidebarItem: React.FC<Iprops> = ({
       onClick={onSelect}
     >
       {icon}
-      <span className={`text-${labelColor}-400 text-base mt-2`}>{label}</span>
+      <span className={`text-${labelColor} text-base mt-2`}>{label}</span>
     </Link>
   )
 }
