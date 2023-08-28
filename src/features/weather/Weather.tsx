@@ -26,12 +26,14 @@ const Weather: React.FC<Iprops> = ({}) => {
   return (
     <>
       <div className="grid gap-4 col-span-7">
-        <Widgets />
-        <DailyForcast />
+        <div className="mb-5">
+          <Widgets />
+        </div>
+        <DailyForcast background={true} />
         <AirCondition />
       </div>
       <div className="col-span-3 bg-component rounded-2xl">
-        <WeeklyForcast />
+        <WeeklyForcast days={7} />
       </div>
     </>
   )

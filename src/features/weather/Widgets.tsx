@@ -3,8 +3,8 @@ import Brightness7Icon from "@mui/icons-material/Brightness7"
 
 const Widgets: React.FC = () => {
   return (
-    <div className="rounded-3xl grid grid-cols-2 px-12">
-      <div className="flex flex-col justify-around">
+    <div className="rounded-3xl grid grid-cols-2 px-10 h-full">
+      <div className="flex flex-col justify-between">
         <div className="flex flex-col justify-around space-y-1">
           <span className="font-bold text-primary text-3xl">Madrid</span>
           <span className="text-xs text-secondary">Chance of rain: 0%</span>
