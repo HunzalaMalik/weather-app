@@ -1,27 +1,30 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import Widgets from "./Widgets"
 import DailyForcast from "./DailyForcast"
 import AirCondition from "./AirCondition"
 import WeeklyForcast from "./WeeklyForcast"
-import getCurrentWeather from "../../api/CurrentWeatherAPI"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import {
+  currentWeatherSelector,
+  fetchCurrentWeather,
+} from "../../slices/currentWeatherSlice"
 
 interface Iprops {}
 
 const Weather: React.FC<Iprops> = ({}) => {
-  const [lat, setLat] = useState<number>(0)
-  const [long, setLong] = useState<number>(0)
-  const [currentWeather, setCurrentWeather] = useState({})
+  const currentWeather = useAppSelector(currentWeatherSelector)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
-      setLat(position.coords?.latitude)
-      setLong(position.coords?.longitude)
+      dispatch(
+        fetchCurrentWeather({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+        }),
+      )
     })
-
-    getCurrentWeather(lat, long).then((obj) => {
-      setCurrentWeather(obj)
-    })
-  }, [lat, long])
+  }, [dispatch])
 
   return (
     <>
@@ -29,7 +32,7 @@ const Weather: React.FC<Iprops> = ({}) => {
         <div className="mb-5">
           <Widgets />
         </div>
-        <DailyForcast background={true} />
+        <DailyForcast background={true} noOfTime={6} />
         <AirCondition />
       </div>
       <div className="col-span-3 bg-component rounded-2xl">

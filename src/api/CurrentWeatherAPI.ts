@@ -13,7 +13,6 @@ const getCurrentWeather = async (lat: number, long: number) => {
     console.log("Current Weather not found", e)
     return []
   }
-  // setLoading(false)
 }
 
 export default getCurrentWeather

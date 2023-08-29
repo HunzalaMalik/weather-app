@@ -17,9 +17,8 @@ const WeatherCard: React.FC<Iprops> = (props: Iprops) => {
       }`}
     >
       <div className="flex justify-between w-36">
-        <span>
-          <DeviceThermostatIcon style={{ color: "gray" }} />
-        </span>
+        <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />
+
         <div className="flex flex-col items-start">
           <span className="font-bold text-primary text-2xl">{props.name}</span>
           <span className="text-sm text-secondary">{props.time}</span>

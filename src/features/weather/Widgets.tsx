@@ -1,9 +1,8 @@
 import React from "react"
-import Brightness7Icon from "@mui/icons-material/Brightness7"
 
 const Widgets: React.FC = () => {
   return (
-    <div className="rounded-3xl grid grid-cols-2 px-10 h-full">
+    <div className="rounded-3xl flex justify-between px-10 py-5 h-full">
       <div className="flex flex-col justify-between">
         <div className="flex flex-col justify-around space-y-1">
           <span className="font-bold text-primary text-3xl">Madrid</span>
@@ -12,9 +11,7 @@ const Widgets: React.FC = () => {
         <span className="font-bold text-primary text-5xl">31 °</span>
       </div>
 
-      <span className="">
-        <Brightness7Icon style={{ color: "gray", float: "right" }} />
-      </span>
+      <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />
     </div>
   )
 }

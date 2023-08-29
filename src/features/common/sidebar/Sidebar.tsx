@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import MapIcon from "@mui/icons-material/Map"
@@ -6,13 +6,26 @@ import TuneIcon from "@mui/icons-material/Tune"
 import SidebarItem from "./SidebarItem"
 import BeachAccessIcon from "@mui/icons-material/BeachAccess"
 import SearchField from "../search/SearchField"
+import { useLocation } from "react-router-dom"
+import {
+  selectCurrentPage,
+  setPagePath,
+} from "../../../slices/selectedPageSlice"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
 interface Iprops {
   children: React.ReactNode
 }
 
 const Sidebar: React.FC<Iprops> = ({ children }) => {
-  const [selected, setSelected] = useState<string>("")
+  const location = useLocation()
+  const currentPath = location.pathname.split("/")[1]
+  const dispatch = useAppDispatch()
+  const currentPage = useAppSelector(selectCurrentPage)
+
+  useEffect(() => {
+    dispatch(setPagePath(currentPath))
+  })
 
   return (
     <div className="flex">
@@ -24,7 +37,7 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
               icon={<BeachAccessIcon style={{ color: "white" }} />}
               label=""
               labelColor="primary"
-              onSelect={() => setSelected("")}
+              disabled
             />
           </div>
           <ul className="pt-2 pb-4 space-y-1 text-sm">
@@ -33,12 +46,13 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 to="/"
                 icon={
                   <ThunderstormIcon
-                    style={{ color: selected === "" ? "white" : "gray" }}
+                    style={{ color: currentPage === "" ? "white" : "gray" }}
                   />
                 }
                 label="Weather"
-                labelColor={selected === "" ? "primary" : "secondary"}
-                onSelect={() => setSelected("")}
+                labelColor={currentPage === "" ? "primary" : "secondary"}
+                onSelect={() => dispatch(setPagePath(""))}
+                disabled={false}
               />
             </li>
             <li>
@@ -47,13 +61,14 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 icon={
                   <FormatListBulletedIcon
                     style={{
-                      color: selected === "Cities" ? "white" : "gray",
+                      color: currentPage === "cities" ? "white" : "gray",
                     }}
                   />
                 }
                 label="Cities"
-                labelColor={selected === "Cities" ? "primary" : "secondary"}
-                onSelect={() => setSelected("Cities")}
+                labelColor={currentPage === "cities" ? "primary" : "secondary"}
+                onSelect={() => dispatch(setPagePath("cities"))}
+                disabled={false}
               />
             </li>
             <li>
@@ -62,13 +77,14 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 icon={
                   <MapIcon
                     style={{
-                      color: selected === "Map" ? "white" : "gray",
+                      color: currentPage === "Map" ? "white" : "gray",
                     }}
                   />
                 }
                 label="Map"
-                labelColor={selected === "Map" ? "primary" : "secondary"}
-                onSelect={() => setSelected("Map")}
+                labelColor={currentPage === "Map" ? "primary" : "secondary"}
+                onSelect={() => dispatch(setPagePath("Map"))}
+                disabled
               />
             </li>
 
@@ -78,13 +94,16 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
                 icon={
                   <TuneIcon
                     style={{
-                      color: selected === "Settings" ? "white" : "gray",
+                      color: currentPage === "Settings" ? "white" : "gray",
                     }}
                   />
                 }
                 label="Settings"
-                labelColor={selected === "Settings" ? "primary" : "secondary"}
-                onSelect={() => setSelected("Settings")}
+                labelColor={
+                  currentPage === "Settings" ? "primary" : "secondary"
+                }
+                onSelect={() => dispatch(setPagePath("Settings"))}
+                disabled
               />
             </li>
           </ul>
