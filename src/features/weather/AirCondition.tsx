@@ -4,26 +4,33 @@ import AirIcon from "@mui/icons-material/Air"
 import WaterDropIcon from "@mui/icons-material/WaterDrop"
 import Brightness7Icon from "@mui/icons-material/Brightness7"
 
-const AirCondition: React.FC = () => {
+interface Iprops {
+  temp: number
+  windSpeed: number
+  rainPercentage: number
+  UVIndex: number
+}
+
+const AirCondition: React.FC<Iprops> = (props: Iprops) => {
   const OBJECTS = [
     {
       title: "Real Feel",
-      text: "30 °",
+      text: `${props.temp}°`,
       icon: <DeviceThermostatIcon style={{ color: "gray" }} />,
     },
     {
       title: "Wind",
-      text: "0.2 km/h",
+      text: `${props.windSpeed} km/h`,
       icon: <AirIcon style={{ color: "gray" }} />,
     },
     {
       title: "Chance of rain",
-      text: "0%",
+      text: `${props.rainPercentage}%`,
       icon: <WaterDropIcon style={{ color: "gray" }} />,
     },
     {
       title: "UV index",
-      text: "3",
+      text: props.UVIndex,
       icon: <Brightness7Icon style={{ color: "gray" }} />,
     },
   ]

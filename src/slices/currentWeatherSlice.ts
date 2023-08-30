@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "../app/store"
+import { RootState, store } from "../app/store"
 import getCurrentWeather from "../api/CurrentWeatherAPI"
+import { setLoading } from "./loadingSlice"
 
 interface Coord {
   lon: number
@@ -102,8 +103,18 @@ const initialState: currentWeatherData = {
 
 export const fetchCurrentWeather = createAsyncThunk(
   "weather/fetchCurrentWeather",
-  async ({ lat, long }: { lat: number; long: number }) => {
+  async ({
+    lat,
+    long,
+    shouldDisableLoading,
+  }: {
+    lat: number
+    long: number
+    shouldDisableLoading: boolean
+  }) => {
     const response = await getCurrentWeather(lat, long)
+    if (shouldDisableLoading) store.dispatch(setLoading(false))
+
     return response
   },
 )

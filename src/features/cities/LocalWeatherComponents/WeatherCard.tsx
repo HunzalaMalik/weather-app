@@ -13,7 +13,7 @@ const WeatherCard: React.FC<Iprops> = (props: Iprops) => {
   return (
     <div
       className={`flex justify-between rounded-3xl px-8 py-5 ${
-        !props.clicked ? "" : "bg-component"
+        props.clicked ? "" : "bg-component"
       }`}
     >
       <div className="flex justify-between w-36">

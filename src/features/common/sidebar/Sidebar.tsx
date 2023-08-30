@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm"
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted"
 import MapIcon from "@mui/icons-material/Map"
@@ -12,6 +12,7 @@ import {
   setPagePath,
 } from "../../../slices/selectedPageSlice"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import { selectLoading } from "../../../slices/loadingSlice"
 
 interface Iprops {
   children: React.ReactNode
@@ -22,10 +23,11 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
   const currentPath = location.pathname.split("/")[1]
   const dispatch = useAppDispatch()
   const currentPage = useAppSelector(selectCurrentPage)
+  const loading = useAppSelector(selectLoading)
 
   useEffect(() => {
     dispatch(setPagePath(currentPath))
-  })
+  }, [])
 
   return (
     <div className="flex">
@@ -113,7 +115,13 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
       <div className="flex flex-col w-full ">
         <SearchField />
 
-        <main className="grid grid-cols-10 gap-4 mx-8 mt-8 overflow-y-auto h-[calc(100vh-10rem)]">
+        <main
+          className={
+            !loading
+              ? `grid grid-cols-10 gap-4 mx-8 mt-8 overflow-y-auto h-[calc(100vh-10rem)]`
+              : ""
+          }
+        >
           {children}
         </main>
       </div>

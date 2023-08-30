@@ -5,14 +5,16 @@ import Cities from "./features/cities/Cities"
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />}>
-          <Route path="" element={<Weather />} />
-          <Route path="cities" element={<Cities />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />}>
+            <Route path="" element={<Weather />} />
+            <Route path="cities" element={<Cities />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
 

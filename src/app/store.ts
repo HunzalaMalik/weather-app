@@ -8,12 +8,14 @@ import counterReducer from "../features/counter/counterSlice"
 import selectedPageReducer from "../slices/selectedPageSlice"
 import currentWeatherReducer from "../slices/currentWeatherSlice"
 import weeklyWeatherReducer from "../slices/weeklyWeatherSlice"
+import loadingReducer from "../slices/loadingSlice"
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   selectedPage: selectedPageReducer,
   currentWeather: currentWeatherReducer,
   weeklyWeather: weeklyWeatherReducer,
+  loading: loadingReducer,
 })
 
 export const store = configureStore({

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "../app/store"
+import { RootState, store } from "../app/store"
 import getWeeklyWeather from "../api/weeklyWeatherAPI"
+import { setLoading } from "./loadingSlice"
 
 interface City {
   id: number
@@ -128,8 +129,17 @@ const initialState: WeeklyWeatherData = {
 
 export const fetchWeeklyWeather = createAsyncThunk(
   "weather/fetchWeeklyWeather",
-  async ({ lat, long }: { lat: number; long: number }) => {
+  async ({
+    lat,
+    long,
+    shouldDisableLoading,
+  }: {
+    lat: number
+    long: number
+    shouldDisableLoading: boolean
+  }) => {
     const response = await getWeeklyWeather(lat, long)
+    if (shouldDisableLoading) store.dispatch(setLoading(false))
     return response
   },
 )
@@ -149,6 +159,6 @@ export const WeeklyWeatherSlice = createSlice({
   },
 })
 
-export const WeeklyWeatherSelector = (state: RootState) => state.weeklyWeather
+export const weeklyWeatherSelector = (state: RootState) => state.weeklyWeather
 
 export default WeeklyWeatherSlice.reducer

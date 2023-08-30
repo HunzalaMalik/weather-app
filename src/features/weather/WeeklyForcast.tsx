@@ -1,8 +1,4 @@
 import React from "react"
-import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat"
-import AirIcon from "@mui/icons-material/Air"
-import WaterDropIcon from "@mui/icons-material/WaterDrop"
-import Brightness7Icon from "@mui/icons-material/Brightness7"
 import { Divider } from "@mui/material"
 
 interface Iprops {

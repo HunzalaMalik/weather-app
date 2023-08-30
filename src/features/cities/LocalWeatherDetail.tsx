@@ -7,7 +7,9 @@ import { Divider } from "@mui/material"
 const LocalWeatherDetail: React.FC = () => {
   return (
     <div className="grid grid-rows-10 h-[calc(100vh-10rem)]">
-      <Widgets />
+      <div className="p-4">
+        <Widgets />
+      </div>
       <Divider variant="middle" sx={{ bgcolor: "white" }} />
       <DailyForcast background={false} noOfTime={3} />
       <Divider variant="middle" sx={{ bgcolor: "white" }} />

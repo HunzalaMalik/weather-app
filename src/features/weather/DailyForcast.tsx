@@ -1,5 +1,7 @@
 import React from "react"
 import { Divider } from "@mui/material"
+import { useAppSelector } from "../../app/hooks"
+import { weeklyWeatherSelector } from "../../slices/weeklyWeatherSlice"
 
 interface Iprops {
   background: boolean
@@ -7,38 +9,16 @@ interface Iprops {
 }
 
 const DailyForcast: React.FC<Iprops> = (props: Iprops) => {
-  const OBJECTS = [
-    {
-      time: "6:00 AM",
-      text: "25 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-    {
-      time: "9:00 AM",
-      text: "28 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-    {
-      time: "12:00 PM",
-      text: "33 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-    {
-      time: "3:00 PM",
-      text: "34 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-    {
-      time: "6:00 PM",
-      text: "32 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-    {
-      time: "9:00 PM",
-      text: "30 °",
-      icon: <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />,
-    },
-  ]
+  const weeklyWeather = useAppSelector(weeklyWeatherSelector)
+
+  const formatTime = (dateTimeStr: string) => {
+    const date = new Date(dateTimeStr)
+    const hours = date.getHours()
+    return `${hours % 12 || 12}:${String(date.getMinutes()).padStart(2, "0")} ${
+      hours >= 12 ? "PM" : "AM"
+    }`
+  }
+
   return (
     <div
       className={`rounded-3xl px-6 py-4 space-y-4 ${
@@ -48,16 +28,22 @@ const DailyForcast: React.FC<Iprops> = (props: Iprops) => {
       <span className="text-secondary">Today's Forcast</span>
 
       <div className="flex justify-around py-3">
-        {OBJECTS.slice(0, props.noOfTime).map((obj, index) => (
+        {weeklyWeather.list.slice(0, props.noOfTime).map((obj, index) => (
           <React.Fragment key={index}>
             <div key={index} className="flex flex-col items-center space-y-4">
-              <span className="text-secondary text-lg">{obj.time}</span>
-              <div>{obj.icon}</div>
+              <span className="text-secondary text-lg">
+                {formatTime(obj.dt_txt)}
+              </span>
+              <img
+                src={`http://openweathermap.org/img/w/${obj.weather[0].icon}.png`}
+                alt={obj.weather[0].icon}
+              />
               <span className="text-primary text-2xl font-bold">
-                {obj.text}
+                {obj.main.temp}°
               </span>
             </div>
-            {index !== OBJECTS.slice(0, props.noOfTime).length - 1 && (
+            {index !==
+              weeklyWeather.list.slice(0, props.noOfTime).length - 1 && (
               <Divider
                 variant="middle"
                 orientation="vertical"
