@@ -1,51 +1,42 @@
 import React from "react"
 import WeatherCard from "./WeatherCard"
+import { getData, getLocationByName, getNames } from "../../../app/location"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import {
+  clickedValue,
+  setClicked,
+} from "../../../slices/weatherCardClickedSlice"
 
-interface Iprops {
-  clicked: number
-  setClicked: Function
-}
+interface Iprops {}
 
 const LocalWeather: React.FC<Iprops> = (props: Iprops) => {
-  const OBJECTS = [
-    {
-      time: "6:00 AM",
-      name: "Madrid",
-      temp: "25 °",
-      icon: "",
-    },
-    {
-      time: "9:00 AM",
-      name: "Madrid",
-      temp: "28 °",
-      icon: "",
-    },
-    {
-      time: "12:00 PM",
-      name: "Madrid",
-      temp: "33 °",
-      icon: "",
-    },
-  ]
+  const cityNames = getNames()
+  const dispatch = useAppDispatch()
+  const clicked = useAppSelector(clickedValue)
 
-  const handleClick = (index: number) => {
-    if (props.clicked === index) {
-      props.setClicked(-1)
+  const handleClick = (index: number, name: string) => {
+    if (clicked === index) {
+      dispatch(setClicked(-1))
+      navigator.geolocation.getCurrentPosition(function (position) {
+        getData(position.coords.latitude, position.coords.longitude, dispatch)
+      })
     } else {
-      props.setClicked(index)
+      dispatch(setClicked(index))
+      const location = getLocationByName(name)
+      location && getData(location?.lat, location?.long, dispatch)
     }
   }
 
   return (
-    <div className="flex flex-col space-y-3 overflow-y-auto h-[calc(100vh-10rem)]">
-      {OBJECTS.map((obj, index) => (
-        <button key={index} onClick={() => handleClick(index)}>
+    <div className="flex flex-col space-y-3 overflow-y-auto no-scrollbar h-[calc(100vh-10rem)]">
+      {cityNames.map((obj, index) => (
+        <button key={index} onClick={() => handleClick(index, obj)}>
           <WeatherCard
-            time={obj.time}
-            name={obj.name}
-            temp={obj.temp}
-            icon={obj.icon}
-            clicked={props.clicked === index}
+            time="6:00 AM"
+            name={obj}
+            temp="28°"
+            icon=""
+            clicked={clicked === index}
           />
         </button>
       ))}

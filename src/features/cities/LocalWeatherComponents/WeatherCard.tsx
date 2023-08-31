@@ -1,5 +1,4 @@
 import React from "react"
-import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat"
 
 interface Iprops {
   time: string
@@ -16,7 +15,7 @@ const WeatherCard: React.FC<Iprops> = (props: Iprops) => {
         props.clicked ? "" : "bg-component"
       }`}
     >
-      <div className="flex justify-between w-36">
+      <div className="flex justify-between w-38">
         <img src={`http://openweathermap.org/img/w/01d.png`} alt={`01d`} />
 
         <div className="flex flex-col items-start">
