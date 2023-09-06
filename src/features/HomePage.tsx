@@ -4,7 +4,7 @@ import { selectLoading } from "../slices/loadingSlice"
 import Loader from "./common/Loader"
 import Sidebar from "./common/sidebar/Sidebar"
 import { Outlet } from "react-router-dom"
-import { getData } from "../app/location"
+import { getDataByCords } from "../app/actions"
 
 const HomePage = () => {
   const loading = useAppSelector(selectLoading)
@@ -12,7 +12,11 @@ const HomePage = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
-      getData(position.coords.latitude, position.coords.longitude, dispatch)
+      getDataByCords(
+        dispatch,
+        position.coords.latitude,
+        position.coords.longitude,
+      )
     })
   }, [dispatch])
 

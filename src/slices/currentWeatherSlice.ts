@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState, store } from "../app/store"
-import getCurrentWeather from "../api/CurrentWeatherAPI"
+import {
+  getCurrentWeather,
+  getCurrentWeatherByName,
+} from "../api/CurrentWeatherAPI"
 import { setLoading } from "./loadingSlice"
+import { kelvinToCelcius } from "../app/actions"
 
 interface Coord {
   lon: number
@@ -119,6 +123,22 @@ export const fetchCurrentWeather = createAsyncThunk(
   },
 )
 
+export const fetchCurrentWeatherByName = createAsyncThunk(
+  "weather/fetchCurrentWeatherByName",
+  async ({
+    name,
+    shouldDisableLoading,
+  }: {
+    name: string
+    shouldDisableLoading: boolean
+  }) => {
+    const response = await getCurrentWeatherByName(name)
+    if (shouldDisableLoading) store.dispatch(setLoading(false))
+    console.log("================", response)
+    return response
+  },
+)
+
 export const currentWeatherSlice = createSlice({
   name: "currentWeather",
   initialState,
@@ -126,7 +146,37 @@ export const currentWeatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCurrentWeather.fulfilled, (state, { payload }) => {
+        if (payload.main.temp < 273) {
+          payload.main.temp = Math.round(payload.main.temp)
+          payload.main.feels_like = Math.round(payload.main.feels_like)
+          payload.main.temp_min = Math.round(payload.main.temp_min)
+          payload.main.temp_max = Math.round(payload.main.temp_max)
+        } else {
+          payload.main.temp = kelvinToCelcius(payload.main.temp)
+          payload.main.feels_like = kelvinToCelcius(payload.main.feels_like)
+          payload.main.temp_min = kelvinToCelcius(payload.main.temp_min)
+          payload.main.temp_max = kelvinToCelcius(payload.main.temp_max)
+        }
+
         return payload
+      })
+      .addCase(fetchCurrentWeatherByName.fulfilled, (state, { payload }) => {
+        if (payload.main.temp < 273) {
+          payload.main.temp = Math.round(payload.main.temp)
+          payload.main.feels_like = Math.round(payload.main.feels_like)
+          payload.main.temp_min = Math.round(payload.main.temp_min)
+          payload.main.temp_max = Math.round(payload.main.temp_max)
+        } else {
+          payload.main.temp = kelvinToCelcius(payload.main.temp)
+          payload.main.feels_like = kelvinToCelcius(payload.main.feels_like)
+          payload.main.temp_min = kelvinToCelcius(payload.main.temp_min)
+          payload.main.temp_max = kelvinToCelcius(payload.main.temp_max)
+        }
+
+        return payload
+      })
+      .addCase(fetchCurrentWeatherByName.rejected, (state, action) => {
+        console.error("Failed to fetch current weather", action.error)
       })
       .addCase(fetchCurrentWeather.rejected, (state, action) => {
         console.error("Failed to fetch current weather", action.error)

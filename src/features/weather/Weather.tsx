@@ -13,7 +13,7 @@ const Weather: React.FC<Iprops> = ({}) => {
 
   return (
     <>
-      <div className="grid gap-4 col-span-7">
+      <div className="grid gap-4 col-span-7 mr-4">
         <div className="px-10 py-5">
           <Widgets />
         </div>

@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState, store } from "../app/store"
-import getWeeklyWeather from "../api/weeklyWeatherAPI"
+import {
+  getWeeklyWeather,
+  getWeeklyWeatherByName,
+} from "../api/weeklyWeatherAPI"
 import { setLoading } from "./loadingSlice"
+import { kelvinToCelcius } from "../app/actions"
 
 interface City {
   id: number
@@ -144,6 +148,21 @@ export const fetchWeeklyWeather = createAsyncThunk(
   },
 )
 
+export const fetchWeeklyWeatherByName = createAsyncThunk(
+  "weather/fetchWeeklyWeatherByName",
+  async ({
+    name,
+    shouldDisableLoading,
+  }: {
+    name: string
+    shouldDisableLoading: boolean
+  }) => {
+    const response = await getWeeklyWeatherByName(name)
+    if (shouldDisableLoading) store.dispatch(setLoading(false))
+    return response
+  },
+)
+
 export const WeeklyWeatherSlice = createSlice({
   name: "weeklyWeather",
   initialState,
@@ -151,9 +170,27 @@ export const WeeklyWeatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeeklyWeather.fulfilled, (state, { payload }) => {
+        payload.list.forEach((item: ListObject) => {
+          item.main.temp = kelvinToCelcius(item.main.temp)
+          item.main.feels_like = kelvinToCelcius(item.main.feels_like)
+          item.main.temp_min = kelvinToCelcius(item.main.temp_min)
+          item.main.temp_max = kelvinToCelcius(item.main.temp_max)
+        })
         return payload
       })
       .addCase(fetchWeeklyWeather.rejected, (state, action) => {
+        console.error("Failed to fetch Weekly weather", action.error)
+      })
+      .addCase(fetchWeeklyWeatherByName.fulfilled, (state, { payload }) => {
+        payload.list.forEach((item: ListObject) => {
+          item.main.temp = kelvinToCelcius(item.main.temp)
+          item.main.feels_like = kelvinToCelcius(item.main.feels_like)
+          item.main.temp_min = kelvinToCelcius(item.main.temp_min)
+          item.main.temp_max = kelvinToCelcius(item.main.temp_max)
+        })
+        return payload
+      })
+      .addCase(fetchWeeklyWeatherByName.rejected, (state, action) => {
         console.error("Failed to fetch Weekly weather", action.error)
       })
   },

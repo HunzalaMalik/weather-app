@@ -10,6 +10,8 @@ import currentWeatherReducer from "../slices/currentWeatherSlice"
 import weeklyWeatherReducer from "../slices/weeklyWeatherSlice"
 import loadingReducer from "../slices/loadingSlice"
 import weatherCardClickedReducer from "../slices/weatherCardClickedSlice"
+import queryReducer from "../slices/querySlice"
+import cityWeatherReducer from "../slices/cityWeatherSlice"
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
   weeklyWeather: weeklyWeatherReducer,
   loading: loadingReducer,
   weatherCardClicked: weatherCardClickedReducer,
+  query: queryReducer,
+  cityWeather: cityWeatherReducer,
 })
 
 export const store = configureStore({

@@ -8,7 +8,7 @@ const LocalWeatherDetail: React.FC = () => {
   return (
     <div className="grid grid-rows-10 h-[calc(100vh-10rem)]">
       <div className="p-4">
-        <Widgets />
+        <Widgets needButton={true} />
       </div>
       <Divider variant="middle" sx={{ bgcolor: "white" }} />
       <DailyForcast background={false} noOfTime={3} />

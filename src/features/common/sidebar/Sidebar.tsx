@@ -13,6 +13,7 @@ import {
 } from "../../../slices/selectedPageSlice"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 import { selectLoading } from "../../../slices/loadingSlice"
+import { selectQuery } from "../../../slices/querySlice"
 
 interface Iprops {
   children: React.ReactNode
@@ -30,7 +31,7 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
   }, [])
 
   return (
-    <div className="flex">
+    <div className="flex pt-2">
       <div className="bg-component rounded-3xl items-center h-[calc(100vh-4rem)] w-28 flex flex-col px-3 py-8 sticky shadow ">
         <div className="flex-1">
           <div className="mb-8">
@@ -118,7 +119,7 @@ const Sidebar: React.FC<Iprops> = ({ children }) => {
         <main
           className={
             !loading
-              ? `grid grid-cols-10 gap-4 mx-8 mt-8 overflow-y-auto h-[calc(100vh-10rem)]`
+              ? `grid grid-cols-10 gap-4 ml-8 mt-8 overflow-y-auto h-[calc(100vh-10rem)]`
               : ""
           }
         >
